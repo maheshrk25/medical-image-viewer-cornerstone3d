@@ -18,12 +18,7 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": [{"glob": "**/*", "input": "public"}, {"glob": "charlswasm_decode.wasm", "input": "node_modules/@cornerstonejs/codec-charls/dist", "output": "cs-dicom-loader/codecs/codec-charls"}, {"glob": "libjpegturbowasm_decode.wasm", "input": "node_modules/@cornerstonejs/codec-libjpeg-turbo-8bit/dist", "output": "cs-dicom-loader/codecs/codec-libjpeg-turbo-8bit"}, {"glob": "openjpegwasm_decode.wasm", "input": "node_modules/@cornerstonejs/codec-openjpeg/dist", "output": "cs-dicom-loader/codecs/codec-openjpeg"}, {"glob": "openjphjs.wasm", "input": "node_modules/@cornerstonejs/codec-openjph/dist", "output": "cs-dicom-loader/codecs/codec-openjph"}],
             "styles": [
               "src/styles.css"
             ]
