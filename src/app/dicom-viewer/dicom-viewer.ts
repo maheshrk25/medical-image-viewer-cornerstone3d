@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 import {
     RenderingEngine,
     setVolumesForViewports,
-    Enums as csEnums
+    Enums as csEnums,
+    VolumeViewport3D
 } from '@cornerstonejs/core';
 
 import { DicomStore } from '../models/dicom-store';
@@ -52,7 +53,7 @@ export class DicomViewer implements AfterViewInit, OnDestroy {
         'VOLUME_3D'
     ];
 
-    activeTool = signal('Crosshairs');
+    activeTool = signal('');
 
     async ngAfterViewInit(): Promise<void> {
         try {
@@ -103,6 +104,13 @@ export class DicomViewer implements AfterViewInit, OnDestroy {
                 this.viewport2DIds[1], this.viewport2DIds[2]]
             );
 
+            const viewport = this.renderingEngine.getViewport(
+                this.viewport3DIds[0]
+            ) as VolumeViewport3D;
+            this.setPreset(viewport, 'CT-Chest-Contrast-Enhanced');
+            this.setProjectionMode(viewport, 'minip');
+            //viewport.setSlabThickness(20);
+
             this.renderingEngine.renderViewports([
                 this.viewport2DIds[0],
                 this.viewport3DIds[0],
@@ -113,10 +121,8 @@ export class DicomViewer implements AfterViewInit, OnDestroy {
             this.toolsService.toolGroup2D.addViewport(this.viewport2DIds[0], this.renderingEngine.id);
             this.toolsService.toolGroup2D.addViewport(this.viewport2DIds[1], this.renderingEngine.id);
             this.toolsService.toolGroup2D.addViewport(this.viewport2DIds[2], this.renderingEngine.id);
-            this.toolsService.toolGroup2D.addViewport(this.viewport3DIds[0], this.renderingEngine.id);
 
-            //this.toolsService.toolGroup3D.addViewport(this.viewport3DIds[0], this.renderingEngineID);
-            this.activateTool('Crosshairs');
+            this.toolsService.toolGroup3D.addViewport(this.viewport3DIds[0], this.renderingEngineID);
 
         } catch (error) {
             console.error('Cornerstone initialization failed', error);
@@ -127,6 +133,37 @@ export class DicomViewer implements AfterViewInit, OnDestroy {
     activateTool(toolName: string) {
         this.toolsService.activateTool(toolName);
         this.activeTool.set(toolName);
+    }
+
+    resetViewports(): void {
+        this.renderingEngine.getViewports().forEach((viewport) => {
+            viewport.resetCamera();
+            viewport.render();
+        });
+    }
+
+    setProjectionMode(
+        viewport: any,
+        mode: 'mip' | 'minip' | 'average'
+    ) {
+        const blendModes = {
+            mip: csEnums.BlendModes.MAXIMUM_INTENSITY_BLEND,
+            minip: csEnums.BlendModes.MINIMUM_INTENSITY_BLEND,
+            average: csEnums.BlendModes.AVERAGE_INTENSITY_BLEND,
+        };
+
+        viewport.setBlendMode(blendModes[mode]);
+        viewport.render();
+    }
+
+    setPreset(
+        viewport: any,
+        preset: 'CT-MIP' | 'CT-Bone' | 'CT-Soft-Tissue' | 'CT-Lung' | 'CT-Air' | 'CT-Cardiac' | 'CT-Chest-Contrast-Enhanced'
+    ) {
+        viewport.setProperties({
+                preset: preset,
+            })
+        viewport.render();
     }
 
     ngOnDestroy(): void {

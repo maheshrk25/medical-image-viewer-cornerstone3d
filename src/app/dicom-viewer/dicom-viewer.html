@@ -10,9 +10,8 @@
 
     </div>
     <div class="toolset">
-      <div class="tool" title="Crosshairs" 
-      (click)="activateTool('Crosshairs')"
-      [class.active]="activeTool()==='Crosshairs'">
+      <div class="tool" title="Crosshairs" (click)="activateTool('Crosshairs')"
+        [class.active]="activeTool()==='Crosshairs'">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="1.5"
           stroke-linecap="round" stroke-linejoin="miter" stroke="currentColor">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -26,18 +25,14 @@
           </g>
         </svg>
       </div>
-      <div class="tool" title="Zoom"  
-      (click)="activateTool('Zoom')"
-      [class.active]="activeTool()==='Zoom'">
+      <div class="tool" title="Zoom" (click)="activateTool('Zoom')" [class.active]="activeTool()==='Zoom'">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
       </div>
-      <div class="tool" title="Pan" 
-      (click)="activateTool('Pan')"
-      [class.active]="activeTool()==='Pan'">
+      <div class="tool" title="Pan" (click)="activateTool('Pan')" [class.active]="activeTool()==='Pan'">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
           class="size-6">
           <g id="SVGRepo_bgCarrier"></g>
@@ -59,18 +54,48 @@
         </svg>
       </div>
 
-      <div class="tool" title="WindowLevel" 
-      (click)="activateTool('WindowLevel')"
-      [class.active]="activeTool()==='WindowLevel'">
+      <div class="tool" title="Window Level" (click)="activateTool('WindowLevel')"
+        [class.active]="activeTool()==='WindowLevel'">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5">
           <!-- Outer circle -->
           <circle cx="12" cy="12" r="9" fill="none" />
-
           <!-- Left half filled -->
           <path d="M12 3 A9 9 0 0 0 12 21 Z" fill="currentColor" stroke="none" />
         </svg>
       </div>
 
+      <div class="tool" title="Rotate Volume" (click)="activateTool('TrackballRotate')"
+        [class.active]="activeTool()==='TrackballRotate'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path d="M6.70001 9.26001L12 12.33L17.26 9.28001" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M12 17.7701V12.3201" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+            <path
+              d="M10.76 6.28998L7.56 8.06998C6.84 8.46998 6.23999 9.47998 6.23999 10.31V13.7C6.23999 14.53 6.83 15.54 7.56 15.94L10.76 17.72C11.44 18.1 12.56 18.1 13.25 17.72L16.45 15.94C17.17 15.54 17.77 14.53 17.77 13.7V10.3C17.77 9.46998 17.18 8.45998 16.45 8.05998L13.25 6.27998C12.56 5.89998 11.44 5.89998 10.76 6.28998Z"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M22 15C22 18.87 18.87 22 15 22L16.05 20.25" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M2 9C2 5.13 5.13 2 9 2L7.95001 3.75" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+        </svg>
+      </div>
+
+      <div class="tool" title="Reset Views" (click)="resetViewports()">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M17 9a1 1 0 01-1-1c0-.551-.448-1-1-1H5.414l1.293 1.293a.999.999 0 11-1.414 1.414l-3-3a.999.999 0 010-1.414l3-3a.997.997 0 011.414 0 .999.999 0 010 1.414L5.414 5H15c1.654 0 3 1.346 3 3a1 1 0 01-1 1zM3 11a1 1 0 011 1c0 .551.448 1 1 1h9.586l-1.293-1.293a.999.999 0 111.414-1.414l3 3a.999.999 0 010 1.414l-3 3a.999.999 0 11-1.414-1.414L14.586 15H5c-1.654 0-3-1.346-3-3a1 1 0 011-1z"
+              fill="none" stroke="currentColor"></path>
+          </g>
+        </svg>
+      </div>
     </div>
 
   </header>
@@ -109,7 +134,7 @@
       <div #sagittal class="viewport" (contextmenu)="$event.preventDefault()"></div>
     </section>
 
-    
+
 
   </main>
 

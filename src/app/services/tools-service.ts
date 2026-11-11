@@ -4,12 +4,12 @@ import {
     init as cornerstoneToolsInit,
     ToolGroupManager,
     addTool,
+    Enums as csToolsEnums,
     CrosshairsTool,
     ZoomTool,
     PanTool,
     WindowLevelTool,
-    VolumeRotateTool,
-    Enums as csToolsEnums,
+    TrackballRotateTool,
 } from '@cornerstonejs/tools';
 import type { IToolGroup } from '@cornerstonejs/tools/types';
 
@@ -17,8 +17,22 @@ import type { IToolGroup } from '@cornerstonejs/tools/types';
 export class ToolsService {
     toolGroup2DId = 'ToolGroup2D';
     toolGroup2D!: IToolGroup;
+    tools2D = [
+        CrosshairsTool,
+        ZoomTool,
+        PanTool,
+        WindowLevelTool
+    ];
+
     toolGroup3DId = 'ToolGroup3D';
     toolGroup3D!: IToolGroup;
+    tools3D = [
+        ZoomTool,
+        PanTool,
+        WindowLevelTool,
+        TrackballRotateTool
+    ];
+
     toolsInitialized = false;
 
     constructor() {
@@ -29,20 +43,15 @@ export class ToolsService {
 
     async initializeToolGroups(): Promise<void> {
         try {
-
-            addTool(CrosshairsTool);
-            addTool(ZoomTool);
-            addTool(PanTool);
-            addTool(WindowLevelTool);
-            addTool(VolumeRotateTool)
-
-            this.toolGroup2D.addTool(CrosshairsTool.toolName);
-            this.toolGroup2D.addTool(ZoomTool.toolName);
-            this.toolGroup2D.addTool(PanTool.toolName);
-            this.toolGroup2D.addTool(WindowLevelTool.toolName);
-
-            this.toolGroup3D.addTool(VolumeRotateTool.toolName);
-
+            this.tools2D.forEach(tool => {
+                addTool(tool);
+                this.toolGroup2D.addTool(tool.toolName);
+            });
+            this.tools3D.forEach(tool => {
+                addTool(tool);
+                this.toolGroup3D.addTool(tool.toolName);
+                console.log("Tool name : ", tool.toolName);
+            });
             this.toolsInitialized = true;
         } catch (error) {
             console.error('Tools initialization failed', error);
@@ -50,22 +59,32 @@ export class ToolsService {
     }
 
     activateTool(toolName: string) {
-
-        const tools = [
-            CrosshairsTool,
-            ZoomTool,
-            PanTool,
-            WindowLevelTool
-        ];
-
-        tools.forEach(tool => {
+        var isTool2D = false, isTool3D = false;
+        this.tools2D.forEach(tool => {
             this.toolGroup2D.setToolPassive(tool.toolName);
             this.toolGroup2D.setToolDisabled(tool.toolName);
+            if (toolName === tool.toolName) { isTool2D = true }
         });
-        this.toolGroup2D.setToolActive(toolName, {
-            bindings: [{
-                mouseButton: csToolsEnums.MouseBindings.Primary
-            }]
+
+        this.tools3D.forEach(tool => {
+            this.toolGroup3D.setToolPassive(tool.toolName);
+            this.toolGroup3D.setToolDisabled(tool.toolName);
+            if (toolName === tool.toolName) { isTool3D = true }
         });
+
+        if (isTool2D) {
+            this.toolGroup2D.setToolActive(toolName, {
+                bindings: [{
+                    mouseButton: csToolsEnums.MouseBindings.Primary
+                }]
+            });
+        }
+        if (isTool3D) {
+            this.toolGroup3D.setToolActive(toolName, {
+                bindings: [{
+                    mouseButton: csToolsEnums.MouseBindings.Primary
+                }]
+            });
+        }
     }
 }
